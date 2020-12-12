@@ -54,13 +54,24 @@ document.getElementById('btn').addEventListener('click', function () {
 });
 
 // Create Dino Compare Method 1
-// NOTE: Weight in JSON file is in lbs, height in inches.
+// NOTE: Weight in JSON file is in lbs.
+function compareWeight(human, dinosaur) {
+    const humanWeight = human.weight;
+    const dinosaurWeight = dinosaur.weight;
+    const dinosaurSpecies = dinosaur.species;
+    if (humanWeight > dinosaurWeight) {
+        return `You are ${humanWeight - dinosaurWeight} pounds heavier than ${dinosaurSpecies}.`;
+    } else if (humanWeight < dinosaurWeight) {
+        return `${dinosaurSpecies} is ${dinosaurWeight - humanWeight} pounds heavier than you.`;
+    } else {
+        return `You and ${dinosaurSpecies} are exactly the same weight.`;
+    }
+}
 
 // Create Dino Compare Method 2
-// NOTE: Weight in JSON file is in lbs, height in inches.
+// NOTE: Height in JSON file is in inches.
 
 // Create Dino Compare Method 3
-// NOTE: Weight in JSON file is in lbs, height in inches.
 
 // Generate Tiles for each Dino in Array
 

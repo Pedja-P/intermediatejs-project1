@@ -70,6 +70,18 @@ function compareWeight(human, dinosaur) {
 
 // Create Dino Compare Method 2
 // NOTE: Height in JSON file is in inches.
+function compareHeight(human, dinosaur) {
+    const humanHeight = human.height;
+    const dinosaurHeight = dinosaur.height;
+    const dinosaurSpecies = dinosaur.species;
+    if (humanHeight > dinosaurHeight) {
+        return `You are ${humanHeight - dinosaurHeight} inches taller than ${dinosaurSpecies}.`;
+    } else if (humanHeight < dinosaurHeight) {
+        return `${dinosaurSpecies} is ${dinosaurHeight - humanHeight} inches taller than you.`;
+    } else {
+        return `You and ${dinosaurSpecies} are exactly the same height.`;
+    }
+}
 
 // Create Dino Compare Method 3
 

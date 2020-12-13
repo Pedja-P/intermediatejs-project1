@@ -9,7 +9,10 @@ class Dinosaur {
         this.diet = diet;
         this.where = where;
         this.when = when;
-        this.fact = fact;
+        this.facts =
+            species !== 'Pigeon'
+                ? [fact, `${species} lived during the ${when} period.`, `${species} lived in ${where}.`]
+                : [fact];
     }
 }
 
@@ -55,6 +58,7 @@ document.getElementById('btn').addEventListener('click', function () {
         console.log(compareWeight(human, dino));
         console.log(compareHeight(human, dino));
         console.log(compareDiet(human, dino));
+        console.log(getRandomFact(human, dino));
     });
 });
 
@@ -107,6 +111,15 @@ function compareDiet(human, dinosaur) {
         } ${dinosaurDiet}.`;
     }
     return `You and ${dinosaurSpecies} are both ${humanDiet}s.`;
+}
+
+function getRandomFact(human, dinosaur) {
+    const facts = dinosaur.facts;
+    if (dinosaur.species === 'Pigeon') {
+        return facts[0];
+    }
+    facts.push(compareWeight(human, dinosaur), compareHeight(human, dinosaur), compareDiet(human, dinosaur));
+    return facts[Math.floor(Math.random() * facts.length)];
 }
 
 // Generate Tiles for each Dino in Array

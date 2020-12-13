@@ -51,6 +51,11 @@ document.getElementById('btn').addEventListener('click', function () {
     })();
     const human = new Human(humanData);
     console.log(human);
+    dinosaurs.forEach((dino) => {
+        console.log(compareWeight(human, dino));
+        console.log(compareHeight(human, dino));
+        console.log(compareDiet(human, dino));
+    });
 });
 
 // Create Dino Compare Method 1
@@ -93,8 +98,8 @@ function compareHeight(human, dinosaur) {
 
 // Create Dino Compare Method 3
 function compareDiet(human, dinosaur) {
-    const humanDiet = human.diet.toLowercase();
-    const dinosaurDiet = dinosaur.diet.toLowercase();
+    const humanDiet = human.diet.toLowerCase();
+    const dinosaurDiet = dinosaur.diet.toLowerCase();
     const dinosaurSpecies = dinosaur.species;
     if (humanDiet !== dinosaurDiet) {
         return `You are ${humanDiet} but ${dinosaurSpecies} is a${

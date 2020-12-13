@@ -60,9 +60,9 @@ function compareWeight(human, dinosaur) {
     const dinosaurWeight = dinosaur.weight;
     const dinosaurSpecies = dinosaur.species;
     if (humanWeight > dinosaurWeight) {
-        return `You are ${humanWeight - dinosaurWeight} pounds heavier than ${dinosaurSpecies}.`;
+        return `You are ${humanWeight - dinosaurWeight} pound${humanWeight - dinosaurWeight === 1 ? '' : 's'} heavier than ${dinosaurSpecies}.`;
     } else if (humanWeight < dinosaurWeight) {
-        return `${dinosaurSpecies} is ${dinosaurWeight - humanWeight} pounds heavier than you.`;
+        return `${dinosaurSpecies} is ${dinosaurWeight - humanWeight} pound${dinosaurWeight - humanWeight === 1 ? '' : 's'} heavier than you.`;
     } else {
         return `You and ${dinosaurSpecies} are exactly the same weight.`;
     }
@@ -75,15 +75,24 @@ function compareHeight(human, dinosaur) {
     const dinosaurHeight = dinosaur.height;
     const dinosaurSpecies = dinosaur.species;
     if (humanHeight > dinosaurHeight) {
-        return `You are ${humanHeight - dinosaurHeight} inches taller than ${dinosaurSpecies}.`;
+        return `You are ${humanHeight - dinosaurHeight} inch${humanHeight - dinosaurHeight === 1 ? '' : 'es'} taller than ${dinosaurSpecies}.`;
     } else if (humanHeight < dinosaurHeight) {
-        return `${dinosaurSpecies} is ${dinosaurHeight - humanHeight} inches taller than you.`;
+        return `${dinosaurSpecies} is ${dinosaurHeight - humanHeight} inch${dinosaurHeight - humanHeight === 1 ? '' : 'es'} taller than you.`;
     } else {
         return `You and ${dinosaurSpecies} are exactly the same height.`;
     }
 }
 
 // Create Dino Compare Method 3
+function compareDiet(human, dinosaur) {
+    const humanDiet = human.diet.toLowercase();
+    const dinosaurDiet = dinosaur.diet.toLowercase();
+    const dinosaurSpecies = dinosaur.species;
+    if (humanDiet !== dinosaurDiet) {
+        return `You are ${humanDiet} but ${dinosaurSpecies} is a${dinosaurDiet === 'omnivore' ? 'n' : ''} ${dinosaurDiet}.`;
+    }
+    return `You and ${dinosaurSpecies} are both ${humanDiet}s.`;
+}
 
 // Generate Tiles for each Dino in Array
 

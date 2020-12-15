@@ -28,7 +28,6 @@ const getDinoData = async () => {
 window.onload = async () => {
     const dinoData = await getDinoData();
     dinosaurs = dinoData.map((dino) => new Dinosaur(dino));
-    console.log(dinosaurs);
 };
 
 // Create Human Object
@@ -40,27 +39,6 @@ class Human {
         this.diet = diet;
     }
 }
-
-// Use IIFE to get human data from form
-document.getElementById('btn').addEventListener('click', function () {
-    const humanData = (() => {
-        const form = document.getElementById('dino-compare');
-        return {
-            name: form.name.value,
-            height: Number(form.feet.value) * 12 + Number(form.inches.value),
-            weight: Number(form.weight.value),
-            diet: form.diet.value,
-        };
-    })();
-    const human = new Human(humanData);
-    console.log(human);
-    dinosaurs.forEach((dino) => {
-        console.log(compareWeight(human, dino));
-        console.log(compareHeight(human, dino));
-        console.log(compareDiet(human, dino));
-        console.log(getRandomFact(human, dino));
-    });
-});
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs.
@@ -122,10 +100,69 @@ function getRandomFact(human, dinosaur) {
     return facts[Math.floor(Math.random() * facts.length)];
 }
 
-// Generate Tiles for each Dino in Array
+function createTile(title, image, fact) {
+    const tile = document.createElement('div');
+    tile.classList.add('grid-item');
 
-// Add tiles to DOM
+    const tileTitle = document.createElement('h3');
+    tileTitle.textContent = title;
+
+    const tileImage = document.createElement('img');
+    tileImage.src = image;
+    tileImage.alt = title;
+
+    tile.appendChild(tileTitle);
+    tile.appendChild(tileImage);
+
+    if (fact) {
+        const tileFact = document.createElement('p');
+        tileFact.textContent = fact;
+        tile.appendChild(tileFact);
+    }
+    return tile;
+}
+
+// https://stackoverflow.com/a/46161940
+const shuffledArray = (array) => {
+    const newArray = array.slice();
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const rand = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[rand]] = [newArray[rand], newArray[i]];
+    }
+    return newArray;
+};
+
+// Generate Tiles for each Dino in Array
+function createTiles(human, dinosaurs) {
+    const tiles = shuffledArray(dinosaurs).map((dino) =>
+        createTile(dino.species, `images/${dino.species}.png`, getRandomFact(human, dino))
+    );
+    tiles.splice(4, 0, createTile(human.name, `images/human.png`));
+    return tiles;
+}
+
+function displayInfographic(human, dinosaurs) {
+    const grid = document.getElementById('grid');
+    createTiles(human, dinosaurs).forEach((tile) => grid.appendChild(tile));
+}
 
 // Remove form from screen
+function removeForm(form) {
+    form.style.display = 'none';
+}
 
 // On button click, prepare and display infographic
+// Use IIFE to get human data from form
+document.getElementById('btn').addEventListener('click', function () {
+    const form = document.getElementById('dino-compare');
+    const humanData = (() => {
+        return {
+            name: form.name.value,
+            height: Number(form.feet.value) * 12 + Number(form.inches.value),
+            weight: Number(form.weight.value),
+            diet: form.diet.value,
+        };
+    })();
+    removeForm(form);
+    displayInfographic(new Human(humanData), dinosaurs);
+});

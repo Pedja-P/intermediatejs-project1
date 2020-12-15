@@ -151,18 +151,39 @@ function removeForm(form) {
     form.style.display = 'none';
 }
 
+function getFormData(form) {
+    return {
+        name: form.name.value,
+        feet: Number(form.feet.value),
+        inches: Number(form.inches.value),
+        weight: Number(form.weight.value),
+        diet: form.diet.value,
+    };
+}
+
+function validateFormData({ name, feet, inches, weight }) {
+    if (!!name && feet >= 0 && inches >= 0 && weight >= 0) {
+        return true;
+    }
+    alert('Data in the form is not valid!');
+    return false;
+}
+
 // On button click, prepare and display infographic
 // Use IIFE to get human data from form
 document.getElementById('btn').addEventListener('click', function () {
     const form = document.getElementById('dino-compare');
-    const humanData = (() => {
-        return {
-            name: form.name.value,
-            height: Number(form.feet.value) * 12 + Number(form.inches.value),
-            weight: Number(form.weight.value),
-            diet: form.diet.value,
-        };
-    })();
+    const formData = getFormData(form);
+    if (!validateFormData(formData)) {
+        // Data in form is invalid, return from function immediately without displaying infographic
+        return;
+    }
+    const humanData = (({ name, feet, inches, weight, diet }) => ({
+        name,
+        height: feet * 12 + inches,
+        weight,
+        diet,
+    }))(formData);
     removeForm(form);
     displayInfographic(new Human(humanData), dinosaurs);
 });

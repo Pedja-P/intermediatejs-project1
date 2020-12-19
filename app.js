@@ -36,57 +36,52 @@ class Human {
         this.height = height;
         this.diet = diet;
     }
-}
 
-// Create Dino Compare Method 1
-// NOTE: Weight in JSON file is in lbs.
-function compareWeight(human, dino) {
-    const humanWeight = human.weight;
-    const dinosaurWeight = dino.weight;
-    const dinosaurSpecies = dino.species;
-    if (humanWeight > dinosaurWeight) {
-        return `You are ${humanWeight - dinosaurWeight} pound${
-            humanWeight - dinosaurWeight === 1 ? '' : 's'
-        } heavier than ${dinosaurSpecies}.`;
+    // NOTE: Weight in JSON file is in lbs.
+    compareWeight(dino) {
+        const dinosaurWeight = dino.weight;
+        const dinosaurSpecies = dino.species;
+        if (this.weight > dinosaurWeight) {
+            return `You are ${this.weight - dinosaurWeight} pound${
+                this.weight - dinosaurWeight === 1 ? '' : 's'
+            } heavier than ${dinosaurSpecies}.`;
+        }
+        if (this.weight < dinosaurWeight) {
+            return `${dinosaurSpecies} is ${dinosaurWeight - this.weight} pound${
+                dinosaurWeight - this.weight === 1 ? '' : 's'
+            } heavier than you.`;
+        }
+        return `You and ${dinosaurSpecies} are exactly the same weight.`;
     }
-    if (humanWeight < dinosaurWeight) {
-        return `${dinosaurSpecies} is ${dinosaurWeight - humanWeight} pound${
-            dinosaurWeight - humanWeight === 1 ? '' : 's'
-        } heavier than you.`;
-    }
-    return `You and ${dinosaurSpecies} are exactly the same weight.`;
-}
 
-// Create Dino Compare Method 2
-// NOTE: Height in JSON file is in inches.
-function compareHeight(human, dino) {
-    const humanHeight = human.height;
-    const dinosaurHeight = dino.height;
-    const dinosaurSpecies = dino.species;
-    if (humanHeight > dinosaurHeight) {
-        return `You are ${humanHeight - dinosaurHeight} inch${
-            humanHeight - dinosaurHeight === 1 ? '' : 'es'
-        } taller than ${dinosaurSpecies}.`;
+    // NOTE: Height in JSON file is in inches.
+    compareHeight(dino) {
+        const dinosaurHeight = dino.height;
+        const dinosaurSpecies = dino.species;
+        if (this.height > dinosaurHeight) {
+            return `You are ${this.height - dinosaurHeight} inch${
+                this.height - dinosaurHeight === 1 ? '' : 'es'
+            } taller than ${dinosaurSpecies}.`;
+        }
+        if (this.height < dinosaurHeight) {
+            return `${dinosaurSpecies} is ${dinosaurHeight - this.height} inch${
+                dinosaurHeight - this.height === 1 ? '' : 'es'
+            } taller than you.`;
+        }
+        return `You and ${dinosaurSpecies} are exactly the same height.`;
     }
-    if (humanHeight < dinosaurHeight) {
-        return `${dinosaurSpecies} is ${dinosaurHeight - humanHeight} inch${
-            dinosaurHeight - humanHeight === 1 ? '' : 'es'
-        } taller than you.`;
-    }
-    return `You and ${dinosaurSpecies} are exactly the same height.`;
-}
 
-// Create Dino Compare Method 3
-function compareDiet(human, dino) {
-    const humanDiet = human.diet.toLowerCase();
-    const dinosaurDiet = dino.diet.toLowerCase();
-    const dinosaurSpecies = dino.species;
-    if (humanDiet !== dinosaurDiet) {
-        return `You are ${humanDiet} but ${dinosaurSpecies} is a${
-            dinosaurDiet === 'omnivore' ? 'n' : ''
-        } ${dinosaurDiet}.`;
+    compareDiet(dino) {
+        const humanDiet = this.diet.toLowerCase();
+        const dinosaurDiet = dino.diet.toLowerCase();
+        const dinosaurSpecies = dino.species;
+        if (humanDiet !== dinosaurDiet) {
+            return `You are ${humanDiet} but ${dinosaurSpecies} is a${
+                dinosaurDiet === 'omnivore' ? 'n' : ''
+            } ${dinosaurDiet}.`;
+        }
+        return `You and ${dinosaurSpecies} are both ${humanDiet}s.`;
     }
-    return `You and ${dinosaurSpecies} are both ${humanDiet}s.`;
 }
 
 function getRandomFact(human, dino) {
@@ -94,7 +89,7 @@ function getRandomFact(human, dino) {
     if (dino.species === 'Pigeon') {
         return facts[0];
     }
-    facts.push(compareWeight(human, dino), compareHeight(human, dino), compareDiet(human, dino));
+    facts.push(human.compareWeight(dino), human.compareHeight(dino), human.compareDiet(dino));
     return facts[Math.floor(Math.random() * facts.length)];
 }
 

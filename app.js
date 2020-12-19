@@ -1,5 +1,3 @@
-'use strict';
-
 // Create Dino Constructor
 class Dinosaur {
     constructor({ species, weight, height, diet, where, when, fact }) {
@@ -10,9 +8,9 @@ class Dinosaur {
         this.where = where;
         this.when = when;
         this.facts =
-            species !== 'Pigeon'
-                ? [fact, `${species} lived during the ${when} period.`, `${species} lived in ${where}.`]
-                : [fact];
+            species === 'Pigeon'
+                ? [fact]
+                : [fact, `${species} lived during the ${when} period.`, `${species} lived in ${where}.`];
     }
 }
 
@@ -42,47 +40,47 @@ class Human {
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs.
-function compareWeight(human, dinosaur) {
+function compareWeight(human, dino) {
     const humanWeight = human.weight;
-    const dinosaurWeight = dinosaur.weight;
-    const dinosaurSpecies = dinosaur.species;
+    const dinosaurWeight = dino.weight;
+    const dinosaurSpecies = dino.species;
     if (humanWeight > dinosaurWeight) {
         return `You are ${humanWeight - dinosaurWeight} pound${
             humanWeight - dinosaurWeight === 1 ? '' : 's'
         } heavier than ${dinosaurSpecies}.`;
-    } else if (humanWeight < dinosaurWeight) {
+    }
+    if (humanWeight < dinosaurWeight) {
         return `${dinosaurSpecies} is ${dinosaurWeight - humanWeight} pound${
             dinosaurWeight - humanWeight === 1 ? '' : 's'
         } heavier than you.`;
-    } else {
-        return `You and ${dinosaurSpecies} are exactly the same weight.`;
     }
+    return `You and ${dinosaurSpecies} are exactly the same weight.`;
 }
 
 // Create Dino Compare Method 2
 // NOTE: Height in JSON file is in inches.
-function compareHeight(human, dinosaur) {
+function compareHeight(human, dino) {
     const humanHeight = human.height;
-    const dinosaurHeight = dinosaur.height;
-    const dinosaurSpecies = dinosaur.species;
+    const dinosaurHeight = dino.height;
+    const dinosaurSpecies = dino.species;
     if (humanHeight > dinosaurHeight) {
         return `You are ${humanHeight - dinosaurHeight} inch${
             humanHeight - dinosaurHeight === 1 ? '' : 'es'
         } taller than ${dinosaurSpecies}.`;
-    } else if (humanHeight < dinosaurHeight) {
+    }
+    if (humanHeight < dinosaurHeight) {
         return `${dinosaurSpecies} is ${dinosaurHeight - humanHeight} inch${
             dinosaurHeight - humanHeight === 1 ? '' : 'es'
         } taller than you.`;
-    } else {
-        return `You and ${dinosaurSpecies} are exactly the same height.`;
     }
+    return `You and ${dinosaurSpecies} are exactly the same height.`;
 }
 
 // Create Dino Compare Method 3
-function compareDiet(human, dinosaur) {
+function compareDiet(human, dino) {
     const humanDiet = human.diet.toLowerCase();
-    const dinosaurDiet = dinosaur.diet.toLowerCase();
-    const dinosaurSpecies = dinosaur.species;
+    const dinosaurDiet = dino.diet.toLowerCase();
+    const dinosaurSpecies = dino.species;
     if (humanDiet !== dinosaurDiet) {
         return `You are ${humanDiet} but ${dinosaurSpecies} is a${
             dinosaurDiet === 'omnivore' ? 'n' : ''
@@ -91,12 +89,12 @@ function compareDiet(human, dinosaur) {
     return `You and ${dinosaurSpecies} are both ${humanDiet}s.`;
 }
 
-function getRandomFact(human, dinosaur) {
-    const facts = dinosaur.facts;
-    if (dinosaur.species === 'Pigeon') {
+function getRandomFact(human, dino) {
+    const { facts } = dino;
+    if (dino.species === 'Pigeon') {
         return facts[0];
     }
-    facts.push(compareWeight(human, dinosaur), compareHeight(human, dinosaur), compareDiet(human, dinosaur));
+    facts.push(compareWeight(human, dino), compareHeight(human, dino), compareDiet(human, dino));
     return facts[Math.floor(Math.random() * facts.length)];
 }
 
@@ -124,8 +122,8 @@ function createTile(title, image, fact) {
 
 // https://stackoverflow.com/a/46161940
 const shuffledArray = (array) => {
-    const newArray = array.slice();
-    for (let i = newArray.length - 1; i > 0; i--) {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i -= 1) {
         const rand = Math.floor(Math.random() * (i + 1));
         [newArray[i], newArray[rand]] = [newArray[rand], newArray[i]];
     }
@@ -133,22 +131,17 @@ const shuffledArray = (array) => {
 };
 
 // Generate Tiles for each Dino in Array
-function createTiles(human, dinosaurs) {
-    const tiles = shuffledArray(dinosaurs).map((dino) =>
+function createTiles(human, dinos) {
+    const tiles = shuffledArray(dinos).map((dino) =>
         createTile(dino.species, `images/${dino.species}.png`, getRandomFact(human, dino))
     );
     tiles.splice(4, 0, createTile(human.name, `images/human.png`));
     return tiles;
 }
 
-function displayInfographic(human, dinosaurs) {
+function displayInfographic(human, dinos) {
     const grid = document.getElementById('grid');
-    createTiles(human, dinosaurs).forEach((tile) => grid.appendChild(tile));
-}
-
-// Remove form from screen
-function removeForm(form) {
-    form.style.display = 'none';
+    createTiles(human, dinos).forEach((tile) => grid.appendChild(tile));
 }
 
 function getFormData(form) {
@@ -171,19 +164,20 @@ function validateFormData({ name, feet, inches, weight }) {
 
 // On button click, prepare and display infographic
 // Use IIFE to get human data from form
-document.getElementById('btn').addEventListener('click', function () {
+document.getElementById('btn').addEventListener('click', () => {
     const form = document.getElementById('dino-compare');
     const formData = getFormData(form);
     if (!validateFormData(formData)) {
         // Data in form is invalid, return from function immediately without displaying infographic
         return;
     }
+    // Remove form from screen
+    form.style.display = 'none';
     const humanData = (({ name, feet, inches, weight, diet }) => ({
         name,
         height: feet * 12 + inches,
         weight,
         diet,
     }))(formData);
-    removeForm(form);
     displayInfographic(new Human(humanData), dinosaurs);
 });

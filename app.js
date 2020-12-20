@@ -1,10 +1,16 @@
-// Create Dino Constructor
-class Dinosaur {
-    constructor({ species, weight, height, diet, where, when, fact }) {
+class Creature {
+    constructor({ species, weight, height, diet }) {
         this.species = species;
         this.weight = weight;
         this.height = height;
         this.diet = diet;
+    }
+}
+
+// Create Dino Constructor
+class Dinosaur extends Creature {
+    constructor({ species, weight, height, diet, where, when, fact }) {
+        super({ species, weight, height, diet });
         this.where = where;
         this.when = when;
         this.facts =
@@ -29,12 +35,10 @@ window.onload = async () => {
 };
 
 // Create Human Object
-class Human {
+class Human extends Creature {
     constructor({ name, weight, height, diet }) {
+        super({ species: 'Human', weight, height, diet });
         this.name = name;
-        this.weight = weight;
-        this.height = height;
-        this.diet = diet;
     }
 
     // NOTE: Weight in JSON file is in lbs.

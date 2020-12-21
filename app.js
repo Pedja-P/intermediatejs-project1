@@ -5,6 +5,48 @@ class Creature {
         this.height = height;
         this.diet = diet;
     }
+
+    compareWeight(otherCreature) {
+        const otherWeight = otherCreature.weight;
+        const otherSpecies = otherCreature.species;
+        if (this.weight > otherWeight) {
+            return `You are ${this.weight - otherWeight} pound${
+                this.weight - otherWeight === 1 ? '' : 's'
+            } heavier than ${otherSpecies}.`;
+        }
+        if (this.weight < otherWeight) {
+            return `${otherSpecies} is ${otherWeight - this.weight} pound${
+                otherWeight - this.weight === 1 ? '' : 's'
+            } heavier than you.`;
+        }
+        return `You and ${otherSpecies} are exactly the same weight.`;
+    }
+
+    compareHeight(otherCreature) {
+        const otherHeight = otherCreature.height;
+        const otherSpecies = otherCreature.species;
+        if (this.height > otherHeight) {
+            return `You are ${this.height - otherHeight} inch${
+                this.height - otherHeight === 1 ? '' : 'es'
+            } taller than ${otherSpecies}.`;
+        }
+        if (this.height < otherHeight) {
+            return `${otherSpecies} is ${otherHeight - this.height} inch${
+                otherHeight - this.height === 1 ? '' : 'es'
+            } taller than you.`;
+        }
+        return `You and ${otherSpecies} are exactly the same height.`;
+    }
+
+    compareDiet(otherCreature) {
+        const diet = this.diet.toLowerCase();
+        const otherDiet = otherCreature.diet.toLowerCase();
+        const otherSpecies = otherCreature.species;
+        if (diet !== otherDiet) {
+            return `You are ${diet} but ${otherSpecies} is a${otherDiet === 'omnivore' ? 'n' : ''} ${otherDiet}.`;
+        }
+        return `You and ${otherSpecies} are both ${diet}s.`;
+    }
 }
 
 // Create Dino Constructor
@@ -39,52 +81,6 @@ class Human extends Creature {
     constructor({ name, weight, height, diet }) {
         super({ species: 'Human', weight, height, diet });
         this.name = name;
-    }
-
-    // NOTE: Weight in JSON file is in lbs.
-    compareWeight(dino) {
-        const dinosaurWeight = dino.weight;
-        const dinosaurSpecies = dino.species;
-        if (this.weight > dinosaurWeight) {
-            return `You are ${this.weight - dinosaurWeight} pound${
-                this.weight - dinosaurWeight === 1 ? '' : 's'
-            } heavier than ${dinosaurSpecies}.`;
-        }
-        if (this.weight < dinosaurWeight) {
-            return `${dinosaurSpecies} is ${dinosaurWeight - this.weight} pound${
-                dinosaurWeight - this.weight === 1 ? '' : 's'
-            } heavier than you.`;
-        }
-        return `You and ${dinosaurSpecies} are exactly the same weight.`;
-    }
-
-    // NOTE: Height in JSON file is in inches.
-    compareHeight(dino) {
-        const dinosaurHeight = dino.height;
-        const dinosaurSpecies = dino.species;
-        if (this.height > dinosaurHeight) {
-            return `You are ${this.height - dinosaurHeight} inch${
-                this.height - dinosaurHeight === 1 ? '' : 'es'
-            } taller than ${dinosaurSpecies}.`;
-        }
-        if (this.height < dinosaurHeight) {
-            return `${dinosaurSpecies} is ${dinosaurHeight - this.height} inch${
-                dinosaurHeight - this.height === 1 ? '' : 'es'
-            } taller than you.`;
-        }
-        return `You and ${dinosaurSpecies} are exactly the same height.`;
-    }
-
-    compareDiet(dino) {
-        const humanDiet = this.diet.toLowerCase();
-        const dinosaurDiet = dino.diet.toLowerCase();
-        const dinosaurSpecies = dino.species;
-        if (humanDiet !== dinosaurDiet) {
-            return `You are ${humanDiet} but ${dinosaurSpecies} is a${
-                dinosaurDiet === 'omnivore' ? 'n' : ''
-            } ${dinosaurDiet}.`;
-        }
-        return `You and ${dinosaurSpecies} are both ${humanDiet}s.`;
     }
 }
 

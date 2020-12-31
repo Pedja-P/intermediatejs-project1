@@ -150,7 +150,7 @@ function getFormData(form) {
 }
 
 function validateFormData({ name, feet, inches, weight }) {
-    if (!!name && feet >= 0 && inches >= 0 && weight >= 0) {
+    if (name && feet >= 0 && inches >= 0 && weight >= 0) {
         return true;
     }
     alert('Data in the form is not valid!');
